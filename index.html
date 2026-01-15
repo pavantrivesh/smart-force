@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartForce AI Nexus | Enterprise Salesforce Consulting</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                bg: "#020617",
+                surface: "#0f172a",
+                primary: "#3b82f6",
+                accent: "#06b6d4",
+              },
+            },
+            animation: {
+              blob: "blob 15s infinite",
+              float: "float 6s ease-in-out infinite",
+              scroll: "scroll 40s linear infinite" /* Smooth infinite scroll */,
+              "text-shimmer": "text-shimmer 3s ease-in-out infinite alternate",
+              "fade-up": "fadeUp 0.8s ease-out forwards",
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
+            keyframes: {
+              blob: {
+                "0%": { transform: "translate(0px, 0px) scale(1)" },
+                "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                "100%": { transform: "translate(0px, 0px) scale(1)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              scroll: {
+                "0%": { transform: "translateX(0)" },
+                "100%": {
+                  transform: "translateX(-50%)",
+                } /* Moves exactly half way then resets */,
+              },
+              "text-shimmer": {
+                "0%": { backgroundPosition: "0% 50%" },
+                "100%": { backgroundPosition: "100% 50%" },
+              },
+              fadeUp: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+            backgroundImage: {
+              "grid-white":
+                "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e\")",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* PREMIUM STYLING */
+      body {
+        background-color: #020617;
+        color: #f1f5f9; /* Lighter text for contrast */
+        overflow-x: hidden;
+        font-weight: 500; /* Thicker base font */
+      }
+
+      /* Cyber Grid Background */
+      .bg-grid {
+        mask-image: linear-gradient(
+          to bottom,
+          transparent,
+          5%,
+          white,
+          95%,
+          transparent
+        );
+      }
+
+      /* Text Gradient */
+      .text-glow {
+        background: linear-gradient(to right, #3b82f6, #06b6d4, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% auto;
+        animation: textShine 5s linear infinite;
+      }
+      @keyframes textShine {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      /* Glass Panel - Thicker Borders, clearer bg */
+      .glass-panel {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .glass-panel:hover {
+        background: rgba(15, 23, 42, 0.8);
+        border-color: rgba(6, 182, 212, 0.5);
+        box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
+        transform: translateY(-8px) scale(1.01);
+      }
+
+      /* Button Shine */
+      .btn-shine {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-shine::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: 0.5s;
+      }
+      .btn-shine:hover::after {
+        left: 100%;
+      }
+
+      /* Nav Blur */
+      .nav-blur {
+        background: rgba(2, 6, 23, 0.9);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* Animation Stagger Delays */
+      .delay-100 {
+        animation-delay: 100ms;
+      }
+      .delay-200 {
+        animation-delay: 200ms;
+      }
+      .delay-300 {
+        animation-delay: 300ms;
+      }
+
+      /* Pause Marquee on Hover */
+      .group:hover .animate-scroll {
+        animation-play-state: paused;
+      }
+    </style>
+  </head>
+  <body class="selection:bg-cyan-500 selection:text-black">
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-grid-white bg-[length:40px_40px] opacity-20 bg-grid"
+      ></div>
+      <div
+        class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px] animate-blob"
+      ></div>
+      <div
+        class="absolute top-20 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[128px] animate-blob"
+        style="animation-delay: 2s"
+      ></div>
+    </div>
+
+    <nav
+      class="fixed w-full z-50 top-0 start-0 nav-blur transition-all duration-300"
+    >
+      <div
+        class="max-w-7xl mx-auto flex flex-wrap items-center justify-between p-4"
+      >
+        <a
+          href="#"
+          onclick="showPage('home')"
+          class="flex items-center space-x-2 group cursor-pointer"
+        >
+          <div
+            class="relative w-10 h-10 flex items-center justify-center bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl shadow-lg group-hover:shadow-cyan-500/50 transition duration-300 transform group-hover:rotate-3"
+          >
+            <i data-lucide="zap" class="text-white w-6 h-6 absolute z-10"></i>
+          </div>
+          <span
+            class="self-center text-xl font-extrabold tracking-tight text-white pl-2"
+          >
+            SmartForce <span class="text-cyan-400 font-bold">AI Nexus</span>
+          </span>
+        </a>
+
+        <button
+          onclick="toggleMobileMenu()"
+          type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-400 rounded-lg md:hidden hover:bg-white/10 focus:outline-none transition"
+        >
+          <i data-lucide="menu"></i>
+        </button>
+
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul
+            class="font-bold flex flex-col p-4 md:p-0 mt-4 md:flex-row md:items-center md:space-x-8 md:mt-0 md:bg-transparent"
+          >
+            <li>
+              <a
+                href="#"
+                onclick="showPage('home')"
+                class="block py-2 px-3 text-white hover:text-cyan-400 transition-colors text-sm tracking-wide uppercase"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                onclick="showPage('services')"
+                class="block py-2 px-3 text-slate-400 hover:text-cyan-400 transition-colors text-sm tracking-wide uppercase"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                onclick="showPage('industries')"
+                class="block py-2 px-3 text-slate-400 hover:text-cyan-400 transition-colors text-sm tracking-wide uppercase"
+                >Industries</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                onclick="showPage('about')"
+                class="block py-2 px-3 text-slate-400 hover:text-cyan-400 transition-colors text-sm tracking-wide uppercase"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                onclick="showPage('contact')"
+                class="btn-shine relative inline-flex items-center justify-center px-6 py-2.5 overflow-hidden text-sm font-extrabold text-white rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-lg shadow-cyan-500/30 transition-all duration-300 transform hover:-translate-y-1"
+              >
+                Book Consultation
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-[#020617] border-b border-gray-800 p-4 absolute w-full left-0 shadow-2xl"
+      >
+        <a
+          href="#"
+          onclick="showPage('home')"
+          class="block py-3 text-gray-300 hover:text-white border-b border-gray-800 font-bold"
+          >Home</a
+        >
+        <a
+          href="#"
+          onclick="showPage('services')"
+          class="block py-3 text-gray-300 hover:text-white border-b border-gray-800 font-bold"
+          >Services</a
+        >
+        <a
+          href="#"
+          onclick="showPage('industries')"
+          class="block py-3 text-gray-300 hover:text-white border-b border-gray-800 font-bold"
+          >Industries</a
+        >
+        <a
+          href="#"
+          onclick="showPage('about')"
+          class="block py-3 text-gray-300 hover:text-white border-b border-gray-800 font-bold"
+          >About</a
+        >
+        <a
+          href="#"
+          onclick="showPage('contact')"
+          class="block py-3 text-cyan-400 font-extrabold mt-2"
+          >Book Consultation</a
+        >
+      </div>
+    </nav>
+
+    <main class="flex-grow pt-20 relative z-10">
+      <div id="home" class="page-section opacity-0 animate-fade-up">
+        <section
+          class="relative py-32 lg:py-48 overflow-hidden text-center px-6"
+        >
+          <div class="max-w-5xl mx-auto">
+            <div
+              class="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-blue-500/10 border border-blue-500/30 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-8 hover:bg-blue-500/20 transition cursor-default shadow-[0_0_20px_rgba(59,130,246,0.3)] animate-fade-up"
+            >
+              <span class="relative flex h-2 w-2">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"
+                ></span>
+                <span
+                  class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"
+                ></span>
+              </span>
+              Salesforce + AI Consulting Partner
+            </div>
+
+            <h1
+              class="text-6xl md:text-8xl font-extrabold tracking-tight text-white leading-[1.1] mb-8 animate-fade-up delay-100"
+            >
+              SmartForce <br />
+              <span class="text-glow">AI Nexus</span>
+            </h1>
+
+            <p
+              class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-medium leading-relaxed animate-fade-up delay-200"
+            >
+              We replace spreadsheets with
+              <span class="text-white font-bold">intelligent automation</span>.
+              The enterprise Salesforce partner for the AI era.
+            </p>
+
+            <div
+              class="flex flex-col sm:flex-row justify-center gap-5 animate-fade-up delay-300"
+            >
+              <button
+                onclick="showPage('contact')"
+                class="btn-shine px-10 py-4 bg-white text-brand-bg font-extrabold rounded-xl hover:bg-gray-100 transition shadow-[0_0_40px_rgba(255,255,255,0.3)] transform hover:scale-105 duration-300 animate-pulse-slow"
+              >
+                Book Free Consultation
+              </button>
+              <button
+                onclick="showPage('services')"
+                class="px-10 py-4 border-2 border-slate-700 hover:border-cyan-400 text-white font-bold rounded-xl transition bg-slate-900/50 backdrop-blur-md hover:bg-slate-800"
+              >
+                Explore Services
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="border-y border-white/10 bg-black/30 backdrop-blur-sm animate-fade-up delay-300"
+        >
+          <div
+            class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+          >
+            <div>
+              <h4 class="text-5xl font-extrabold text-white mb-2">100+</h4>
+              <p
+                class="text-sm text-cyan-400 font-bold uppercase tracking-widest"
+              >
+                Projects Delivered
+              </p>
+            </div>
+            <div>
+              <h4 class="text-5xl font-extrabold text-white mb-2">5x</h4>
+              <p
+                class="text-sm text-cyan-400 font-bold uppercase tracking-widest"
+              >
+                Faster Deployment
+              </p>
+            </div>
+            <div>
+              <h4 class="text-5xl font-extrabold text-white mb-2">24/7</h4>
+              <p
+                class="text-sm text-cyan-400 font-bold uppercase tracking-widest"
+              >
+                Support Coverage
+              </p>
+            </div>
+            <div>
+              <h4 class="text-5xl font-extrabold text-white mb-2">100%</h4>
+              <p
+                class="text-sm text-cyan-400 font-bold uppercase tracking-widest"
+              >
+                Client Retention
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="py-32 max-w-7xl mx-auto px-6">
+          <div
+            class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6"
+          >
+            <div>
+              <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
+                Our Expertise
+              </h2>
+              <p class="text-slate-400 text-lg max-w-xl font-medium">
+                We don't just implement software. We engineer business outcomes
+                using the full power of the Salesforce ecosystem.
+              </p>
+            </div>
+            <a
+              href="#"
+              onclick="showPage('services')"
+              class="text-cyan-400 hover:text-white font-bold flex items-center gap-2 transition group text-lg"
+            >
+              View All Services
+              <i
+                data-lucide="arrow-right"
+                class="w-5 h-5 group-hover:translate-x-1 transition"
+              ></i>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+              class="glass-panel p-10 rounded-3xl group cursor-pointer"
+              onclick="showPage('services')"
+            >
+              <div
+                class="w-16 h-16 bg-blue-600/20 border border-blue-500/30 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition duration-300"
+              >
+                <i data-lucide="cloud" class="w-8 h-8 text-blue-400"></i>
+              </div>
+              <h3
+                class="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition"
+              >
+                Salesforce Implementation
+              </h3>
+              <p class="text-slate-400 leading-relaxed font-medium">
+                Architecting scalable Sales, Service, and Experience Clouds
+                tailored to your specific workflow.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-10 rounded-3xl group cursor-pointer"
+              onclick="showPage('services')"
+            >
+              <div
+                class="w-16 h-16 bg-purple-600/20 border border-purple-500/30 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition duration-300"
+              >
+                <i data-lucide="zap" class="w-8 h-8 text-purple-400"></i>
+              </div>
+              <h3
+                class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400 transition"
+              >
+                Automation & AI
+              </h3>
+              <p class="text-slate-400 leading-relaxed font-medium">
+                Replacing manual data entry with intelligent Flows, Apex
+                triggers, and Einstein AI bots.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-10 rounded-3xl group cursor-pointer"
+              onclick="showPage('services')"
+            >
+              <div
+                class="w-16 h-16 bg-green-600/20 border border-green-500/30 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition duration-300"
+              >
+                <i data-lucide="database" class="w-8 h-8 text-green-400"></i>
+              </div>
+              <h3
+                class="text-2xl font-bold text-white mb-4 group-hover:text-green-400 transition"
+              >
+                Data & Integration
+              </h3>
+              <p class="text-slate-400 leading-relaxed font-medium">
+                Seamlessly connecting Salesforce with ERPs, Marketing tools, and
+                legacy databases.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="py-24 bg-gradient-to-b from-transparent to-brand-bg/50 border-y border-white/5 relative overflow-hidden group"
+        >
+          <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-white mb-4">
+              Trusted by Industry Leaders
+            </h2>
+            <p class="text-slate-400 font-medium">
+              Join the companies modernizing their operations.
+            </p>
+          </div>
+
+          <div class="flex overflow-hidden relative">
+            <div class="flex animate-scroll hover:pause gap-8 w-max">
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "SmartForce transformed our chaotic spreadsheets into a
+                    streamlined Salesforce machine. The AI automation saves us
+                    20 hours a week."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/women/44.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-cyan-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">Sarah Jenkins</p>
+                    <p
+                      class="text-cyan-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      CTO, FinTech Corp
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "The data migration was flawless. We moved 10 years of
+                    records with zero downtime. Highly recommended for
+                    enterprise needs."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-purple-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">Michael Ross</p>
+                    <p
+                      class="text-purple-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      Ops Director, RetailGiant
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "Their industry knowledge in Real Estate is unmatched. The
+                    custom flows they built doubled our lead conversion rate."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/men/85.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-green-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">David Kim</p>
+                    <p
+                      class="text-green-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      Founder, EstatePros
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "Professional, fast, and secure. They understood our HIPAA
+                    requirements perfectly for the hospital integration."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/women/63.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-orange-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">Elena Martinez</p>
+                    <p
+                      class="text-orange-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      VP IT, HealthCare Plus
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "SmartForce transformed our chaotic spreadsheets into a
+                    streamlined Salesforce machine. The AI automation saves us
+                    20 hours a week."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/women/44.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-cyan-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">Sarah Jenkins</p>
+                    <p
+                      class="text-cyan-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      CTO, FinTech Corp
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "The data migration was flawless. We moved 10 years of
+                    records with zero downtime. Highly recommended for
+                    enterprise needs."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-purple-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">Michael Ross</p>
+                    <p
+                      class="text-purple-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      Ops Director, RetailGiant
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "Their industry knowledge in Real Estate is unmatched. The
+                    custom flows they built doubled our lead conversion rate."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/men/85.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-green-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">David Kim</p>
+                    <p
+                      class="text-green-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      Founder, EstatePros
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="glass-panel p-8 w-[400px] rounded-2xl flex-shrink-0 flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex gap-1 text-yellow-400 mb-6">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i
+                    ><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  </div>
+                  <p class="text-slate-300 text-lg font-medium italic mb-6">
+                    "Professional, fast, and secure. They understood our HIPAA
+                    requirements perfectly for the hospital integration."
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-4 border-t border-white/10 pt-4"
+                >
+                  <img
+                    src="https://randomuser.me/api/portraits/women/63.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-orange-500/50 object-cover"
+                  />
+                  <div>
+                    <p class="text-white font-bold text-lg">Elena Martinez</p>
+                    <p
+                      class="text-orange-400 text-xs font-extrabold uppercase tracking-wider"
+                    >
+                      VP IT, HealthCare Plus
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#020617] to-transparent z-10 pointer-events-none"
+          ></div>
+          <div
+            class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#020617] to-transparent z-10 pointer-events-none"
+          ></div>
+        </section>
+
+        <section class="py-24 bg-brand-bg relative">
+          <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-extrabold text-white mb-10">
+              Industries We Serve
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4">
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Retail</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Healthcare / Hospitals</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Staffing & Recruitment</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Real Estate</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Finance & Banking</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Education</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Manufacturing</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Logistics</span
+              >
+              <span
+                class="px-8 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 font-bold hover:border-cyan-400 hover:text-white hover:bg-cyan-900/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition duration-300 cursor-default transform hover:-translate-y-1"
+                >Professional Services</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <section class="py-24 relative overflow-hidden text-center">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"
+          ></div>
+          <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-8">
+              Ready for the future?
+            </h2>
+            <p class="text-slate-300 mb-10 text-xl font-medium">
+              Let's build a Salesforce system that works as hard as you do.
+            </p>
+            <button
+              onclick="showPage('contact')"
+              class="btn-shine px-14 py-5 bg-white text-black font-extrabold text-xl rounded-full shadow-[0_0_50px_rgba(255,255,255,0.4)] hover:scale-105 transition transform duration-300"
+            >
+              Get Started Now
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <div id="services" class="page-section hidden opacity-0 animate-fade-up">
+        <section
+          class="bg-gradient-to-b from-slate-900 to-brand-bg py-24 border-b border-white/5"
+        >
+          <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1 class="text-5xl font-extrabold text-white mb-6">
+              Our Services
+            </h1>
+            <p class="text-xl text-slate-300 font-medium">
+              From first-time Salesforce implementations to advanced automation
+              and AI solutions, SmartForce AI Nexus delivers end-to-end
+              Salesforce services.
+            </p>
+          </div>
+        </section>
+
+        <section class="py-24 max-w-7xl mx-auto px-6">
+          <h3
+            class="text-3xl font-extrabold text-white mb-12 pl-4 border-l-8 border-cyan-500"
+          >
+            Technical Capabilities
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glass-panel p-8 rounded-2xl h-full">
+              <i data-lucide="layers" class="w-10 h-10 text-blue-400 mb-6"></i>
+              <h3 class="text-2xl font-bold text-white mb-4">
+                Salesforce Implementation
+              </h3>
+              <ul class="space-y-4 text-slate-400 font-medium">
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Setup new Salesforce org
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Sales Cloud
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Service Cloud
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Security roles
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Data structure
+                </li>
+              </ul>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl h-full">
+              <i data-lucide="zap" class="w-10 h-10 text-purple-400 mb-6"></i>
+              <h3 class="text-2xl font-bold text-white mb-4">
+                Automation + AI
+              </h3>
+              <ul class="space-y-4 text-slate-400 font-medium">
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Flows
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Approvals
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Productivity intelligence
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Customer experience automation
+                </li>
+              </ul>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl h-full">
+              <i
+                data-lucide="database"
+                class="w-10 h-10 text-green-400 mb-6"
+              ></i>
+              <h3 class="text-2xl font-bold text-white mb-4">Data Migration</h3>
+              <ul class="space-y-4 text-slate-400 font-medium">
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Excel → Salesforce
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Legacy system migration
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Data cleanup
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Validated migration
+                </li>
+              </ul>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl h-full">
+              <i data-lucide="link" class="w-10 h-10 text-orange-400 mb-6"></i>
+              <h3 class="text-2xl font-bold text-white mb-4">Integrations</h3>
+              <ul class="space-y-4 text-slate-400 font-medium">
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Conga
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  DocuSign
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Telephony
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  CRMs
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  APIs
+                </li>
+              </ul>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl h-full">
+              <i
+                data-lucide="pie-chart"
+                class="w-10 h-10 text-indigo-400 mb-6"
+              ></i>
+              <h3 class="text-2xl font-bold text-white mb-4">
+                Dashboards & Analytics
+              </h3>
+              <ul class="space-y-4 text-slate-400 font-medium">
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Leadership dashboards
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Sales KPIs
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Operational visibility
+                </li>
+              </ul>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl h-full">
+              <i
+                data-lucide="life-buoy"
+                class="w-10 h-10 text-teal-400 mb-6"
+              ></i>
+              <h3 class="text-2xl font-bold text-white mb-4">
+                Support Services
+              </h3>
+              <ul class="space-y-4 text-slate-400 font-medium">
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Enhancements
+                </li>
+                <li class="flex items-start gap-3">
+                  <i
+                    data-lucide="check"
+                    class="w-5 h-5 text-cyan-400 shrink-0"
+                  ></i>
+                  Performance improvements
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="py-16 bg-slate-900/30 border-t border-white/5">
+          <div class="max-w-7xl mx-auto px-6">
+            <h3
+              class="text-3xl font-extrabold text-white mb-12 pl-4 border-l-8 border-cyan-500"
+            >
+              Industry Solutions
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Retail</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Unified customer views & inventory.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Healthcare</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Patient management & HIPAA compliance.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Staffing</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Candidate tracking & automation.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Real Estate</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Property management & leads.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Finance</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Wealth management & security.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Education</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Student lifecycle management.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Manufacturing</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Supply chain visibility.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">Logistics</h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Fleet management & routes.
+                </p>
+              </div>
+              <div
+                class="p-8 border border-slate-800 rounded-2xl hover:bg-slate-800/50 transition bg-slate-900/50"
+              >
+                <h4 class="text-white font-bold text-xl mb-2">
+                  Professional Services
+                </h4>
+                <p class="text-sm text-slate-400 font-medium">
+                  Project & resource management.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div
+        id="industries"
+        class="page-section hidden opacity-0 animate-fade-up"
+      >
+        <section
+          class="bg-gradient-to-b from-slate-900 to-brand-bg py-24 border-b border-white/5"
+        >
+          <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1 class="text-5xl font-extrabold text-white mb-6">
+              Industry Expertise
+            </h1>
+            <p class="text-xl text-slate-300 font-medium">
+              We speak your language. Solutions optimized for your specific
+              sector.
+            </p>
+          </div>
+        </section>
+
+        <section class="py-24 max-w-7xl mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-cyan-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="shopping-bag" class="text-blue-500"></i>
+                <h3 class="text-xl font-bold text-white">Retail</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Unified customer view and inventory alignment.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Faster
+                checkout & marketing.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="heart-pulse" class="text-red-500"></i>
+                <h3 class="text-xl font-bold text-white">Healthcare</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Patient management and HIPAA compliant systems.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Better patient
+                care.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-yellow-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="briefcase" class="text-yellow-500"></i>
+                <h3 class="text-xl font-bold text-white">Staffing</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Candidate tracking and automated placement flows.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Reduced
+                time-to-hire.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-green-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="home" class="text-green-500"></i>
+                <h3 class="text-xl font-bold text-white">Real Estate</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Property management and lead nurturing.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Higher closing
+                rates.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-emerald-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="dollar-sign" class="text-emerald-500"></i>
+                <h3 class="text-xl font-bold text-white">Finance</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Wealth management and secure document handling.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Compliance &
+                Trust.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-orange-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="factory" class="text-orange-500"></i>
+                <h3 class="text-xl font-bold text-white">Manufacturing</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Supply chain visibility and distributor portals.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Optimized
+                Cycles.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-pink-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="graduation-cap" class="text-pink-500"></i>
+                <h3 class="text-xl font-bold text-white">Education</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Student lifecycle management and donor relations.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Improved
+                Retention.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-cyan-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="truck" class="text-cyan-500"></i>
+                <h3 class="text-xl font-bold text-white">Logistics</h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Fleet management and route optimization integration.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Reduced Costs.
+              </p>
+            </div>
+            <div
+              class="glass-panel p-8 rounded-2xl hover:border-indigo-500/50 transition duration-300"
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="users" class="text-indigo-500"></i>
+                <h3 class="text-xl font-bold text-white">
+                  Professional Services
+                </h3>
+              </div>
+              <p
+                class="text-slate-400 font-medium mb-4 pb-4 border-b border-white/5"
+              >
+                Project management and resource allocation.
+              </p>
+              <p
+                class="text-cyan-400 font-bold text-sm flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i> Higher
+                Billable Hours.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="about" class="page-section hidden opacity-0 animate-fade-up">
+        <section class="bg-gradient-to-b from-slate-900 to-brand-bg py-32">
+          <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-8">
+              More than consultants. <br /><span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"
+                >Transformation Partners.</span
+              >
+            </h1>
+          </div>
+        </section>
+        <section
+          class="py-16 max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-start"
+        >
+          <div>
+            <h3 class="text-3xl font-extrabold text-white mb-6">Our Mission</h3>
+            <p class="text-slate-400 mb-8 leading-relaxed text-lg font-medium">
+              To bridge the gap between complex technology and human-centric
+              business operations. We believe AI and automation should empower
+              teams, not complicate them.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Values</h3>
+            <ul class="space-y-4">
+              <li class="flex items-center gap-3 text-slate-300 font-medium">
+                <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                Transparency in code and communication.
+              </li>
+              <li class="flex items-center gap-3 text-slate-300 font-medium">
+                <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                Innovation driven by necessity.
+              </li>
+              <li class="flex items-center gap-3 text-slate-300 font-medium">
+                <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                Long-term partnership mindset.
+              </li>
+            </ul>
+          </div>
+          <div class="glass-panel p-10 rounded-3xl">
+            <h3 class="text-2xl font-bold text-white mb-8">Why Trust Us?</h3>
+            <div class="space-y-8">
+              <div class="flex gap-4">
+                <div
+                  class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 shrink-0"
+                >
+                  <i data-lucide="code-2"></i>
+                </div>
+                <div>
+                  <h5 class="text-white font-bold text-lg">
+                    Engineering First
+                  </h5>
+                  <p class="text-sm text-slate-400 mt-1 font-medium">
+                    We don't just "implement" software; we engineer robust
+                    business solutions.
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div
+                  class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400 shrink-0"
+                >
+                  <i data-lucide="shield-check"></i>
+                </div>
+                <div>
+                  <h5 class="text-white font-bold text-lg">
+                    Enterprise Security
+                  </h5>
+                  <p class="text-sm text-slate-400 mt-1 font-medium">
+                    Security-first mindset in every automation and integration
+                    we build.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="contact" class="page-section hidden opacity-0 animate-fade-up">
+        <section class="py-24 max-w-6xl mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h1 class="text-6xl font-extrabold text-white mb-6">
+                Let's Talk.
+              </h1>
+              <p
+                class="text-slate-400 mb-12 text-xl leading-relaxed font-medium"
+              >
+                Ready to streamline your operations? Fill out the form or email
+                us directly.
+              </p>
+              <div class="space-y-6">
+                <div
+                  class="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition"
+                >
+                  <div
+                    class="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center text-blue-400"
+                  >
+                    <i data-lucide="mail"></i>
+                  </div>
+                  <div>
+                    <p
+                      class="text-slate-400 text-sm font-bold uppercase tracking-widest"
+                    >
+                      Email
+                    </p>
+                    <p class="text-white font-bold text-xl">
+                      support@smartforceainexus.com
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition"
+                >
+                  <div
+                    class="w-12 h-12 bg-cyan-600/20 rounded-full flex items-center justify-center text-cyan-400"
+                  >
+                    <i data-lucide="map-pin"></i>
+                  </div>
+                  <div>
+                    <p
+                      class="text-slate-400 text-sm font-bold uppercase tracking-widest"
+                    >
+                      Location
+                    </p>
+                    <p class="text-white font-bold text-xl">United States</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="glass-panel p-10 rounded-3xl">
+              <form
+                class="space-y-6"
+                onsubmit="event.preventDefault(); alert('Thank you! We will contact you soon.');"
+              >
+                <div>
+                  <label
+                    class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 block"
+                    >Name</label
+                  >
+                  <input
+                    type="text"
+                    class="w-full bg-slate-900/50 border border-slate-700 text-white p-4 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition outline-none font-medium"
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 block"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    class="w-full bg-slate-900/50 border border-slate-700 text-white p-4 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition outline-none font-medium"
+                    placeholder="name@company.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 block"
+                    >Project Details</label
+                  >
+                  <textarea
+                    rows="4"
+                    class="w-full bg-slate-900/50 border border-slate-700 text-white p-4 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition outline-none font-medium"
+                    placeholder="Tell us about your goals..."
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-extrabold text-lg rounded-xl px-5 py-4 transition transform hover:-translate-y-1 shadow-lg shadow-cyan-500/25"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bg-[#020617] border-t border-white/10 mt-auto pt-20 pb-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div class="col-span-1 md:col-span-1">
+            <a href="#" class="flex items-center space-x-2 mb-6">
+              <div
+                class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white"
+              >
+                <i data-lucide="zap" class="w-4 h-4"></i>
+              </div>
+              <span class="text-xl font-bold text-white">SmartForce</span>
+            </a>
+            <p class="text-slate-500 text-sm leading-relaxed font-medium">
+              Transforming businesses with Salesforce, Automation, and
+              Artificial Intelligence. Built for the modern enterprise.
+            </p>
+          </div>
+          <div>
+            <h4
+              class="text-white font-bold mb-6 uppercase tracking-wider text-sm"
+            >
+              Services
+            </h4>
+            <ul class="space-y-3 text-sm text-slate-400 font-medium">
+              <li>
+                <a
+                  href="#"
+                  onclick="showPage('services')"
+                  class="hover:text-cyan-400 transition"
+                  >Implementation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="showPage('services')"
+                  class="hover:text-cyan-400 transition"
+                  >Automation & AI</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="showPage('services')"
+                  class="hover:text-cyan-400 transition"
+                  >Data Migration</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="showPage('services')"
+                  class="hover:text-cyan-400 transition"
+                  >Integrations</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-white font-bold mb-6 uppercase tracking-wider text-sm"
+            >
+              Company
+            </h4>
+            <ul class="space-y-3 text-sm text-slate-400 font-medium">
+              <li>
+                <a
+                  href="#"
+                  onclick="showPage('about')"
+                  class="hover:text-cyan-400 transition"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="showPage('contact')"
+                  class="hover:text-cyan-400 transition"
+                  >Contact</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-400 transition">Careers</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-400 transition"
+                  >Privacy Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-white font-bold mb-6 uppercase tracking-wider text-sm"
+            >
+              Connect
+            </h4>
+            <ul class="space-y-3 text-sm text-slate-400 font-medium">
+              <li class="flex items-center gap-2">
+                <i data-lucide="mail" class="w-4 h-4 text-blue-500"></i>
+                support@smartforceainexus.com
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-blue-500"></i>
+                United States
+              </li>
+            </ul>
+            <div class="flex gap-4 mt-6">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition"
+                ><i data-lucide="linkedin" class="w-5 h-5"></i
+              ></a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-400 hover:text-white transition"
+                ><i data-lucide="twitter" class="w-5 h-5"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <p class="text-sm text-slate-600 font-medium">
+            © 2024 SmartForce AI Nexus™. All Rights Reserved.
+          </p>
+          <div class="flex gap-6 text-sm text-slate-600 font-medium">
+            <a href="#" class="hover:text-slate-400 transition">Terms</a>
+            <a href="#" class="hover:text-slate-400 transition">Privacy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize Icons
+      lucide.createIcons();
+
+      // SPA Navigation Logic
+      function showPage(pageId) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        const sections = document.querySelectorAll(".page-section");
+        sections.forEach((section) => {
+          section.classList.add("hidden");
+          section.classList.remove("animate-fade-up");
+          section.classList.add("opacity-0");
+        });
+
+        const activeSection = document.getElementById(pageId);
+        if (activeSection) {
+          activeSection.classList.remove("hidden");
+          // Small timeout to allow display:block to apply before animation
+          setTimeout(() => {
+            activeSection.classList.remove("opacity-0");
+            activeSection.classList.add("animate-fade-up");
+          }, 10);
+        }
+
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (!mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.add("hidden");
+        }
+      }
+
+      // Mobile Menu Toggle
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>
